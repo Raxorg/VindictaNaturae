@@ -44,6 +44,7 @@ public class Renderer {
         for (int i = 0; i < stuff.getPlatforms().size; i++) {
             stuff.getPlatforms().get(i).draw(shapeDrawer);
         }
+        stuff.getTC().draw(spriteBatch);
         spriteBatch.end();
 
         renderDebug();

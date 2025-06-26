@@ -1,23 +1,35 @@
 package com.epicness.vindictanaturae.utils;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Affine2;
+
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public abstract class ItemChooser<T> {
     
     protected enum State {FADE_IN, PRESENTING, FADE_OUT, FINISHED}
-
-    protected T elements[];
+    protected Affine2 affine;
+    protected ArrayList<T> elements = new ArrayList<>();
     private T selected;
     protected State state;
     private float time;
-    private float SHOWTIME = 3.f; // 3 seconds
+    private final float SHOWTIME = 1.f; // 1 second
+    public float animParam;
 
-    @SafeVarargs
-    final public void init(T ... elements) {
-        this.elements = elements;
+    final public void init() {
+        affine = new Affine2();
+        affine.idt();
+        elements.clear();
         selected = null;
         state = State.FADE_IN;
         time = 0;
+        animParam = 0;
+    }
+
+    final public void add(T elem) {
+        elements.add(elem);
     }
 
     final public boolean process(float dt) {
@@ -36,6 +48,7 @@ public abstract class ItemChooser<T> {
             if (trySelect(element)) {
                 state = State.FADE_OUT;
                 selected = element;
+                return false;
             }
         }
         return false;
@@ -43,6 +56,7 @@ public abstract class ItemChooser<T> {
 
     final private boolean fadingIn(float dt) {
         time = Math.min(SHOWTIME, dt + time);
+        animParam = 1 - time/SHOWTIME;
         if (time == SHOWTIME) {
             state = State.PRESENTING;
         }
@@ -51,6 +65,7 @@ public abstract class ItemChooser<T> {
 
     final private boolean fadingOut(float dt) {
         time = Math.max(0,  time - dt);
+        animParam = 1 - time/SHOWTIME;
         if (time == 0) {
             state = State.FINISHED;
             return true;
@@ -63,6 +78,7 @@ public abstract class ItemChooser<T> {
     }
 
     public abstract void draw(ShapeDrawer sd);
+    public abstract void draw(SpriteBatch batch);
     public abstract boolean trySelect(T element);
 
 }
