@@ -11,9 +11,9 @@ public class Levels {
     public static final Level FIRST_LEVEL;
 
     static {
-        PlatformDef[] FIRST_LEVEL_PLATFORMS = new PlatformDef[] {
+        PlatformDef[] firstLevelPlatforms = new PlatformDef[] {
             new PlatformDef(0f, 10f, 1200f)
         };
-        FIRST_LEVEL = new Level(FIRST_LEVEL_PLATFORMS);
+        FIRST_LEVEL = new Level(firstLevelPlatforms);
     }
 }

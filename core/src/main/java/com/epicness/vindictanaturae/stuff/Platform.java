@@ -1,7 +1,9 @@
 package com.epicness.vindictanaturae.stuff;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody;
+import static com.epicness.vindictanaturae.constants.Box2DConstants.CATEGORY_WORLD;
 import static com.epicness.vindictanaturae.constants.Box2DConstants.GAME_TO_BOX2D_SCALE;
+import static com.epicness.vindictanaturae.constants.Box2DConstants.MASK_WORLD;
 import static com.epicness.vindictanaturae.utils.ShapeBuilder.buildLine;
 
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +21,7 @@ public class Platform {
         Shape tendrilShape = buildLine(x, y, x + length, y, GAME_TO_BOX2D_SCALE);
         BodyPlus body = new BodyPlus(world, StaticBody, tendrilShape);
         body.setPosition(x * GAME_TO_BOX2D_SCALE, y * GAME_TO_BOX2D_SCALE);
+        body.setFilter(CATEGORY_WORLD, MASK_WORLD);
     }
 
     public void draw(ShapeDrawer shapeDrawer) {

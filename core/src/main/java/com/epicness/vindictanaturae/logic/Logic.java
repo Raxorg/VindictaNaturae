@@ -8,10 +8,12 @@ public class Logic {
 
     private final Box2DUpdater box2DUpdater;
     private final LevelLoader levelLoader;
+    private final TendrilHandler tendrilHandler;
 
     public Logic(Stuff stuff) {
         box2DUpdater = new Box2DUpdater(stuff);
         levelLoader = new LevelLoader(stuff);
+        tendrilHandler = new TendrilHandler(stuff);
     }
 
     public void init() {
@@ -19,6 +21,7 @@ public class Logic {
     }
 
     public void update(float delta) {
+        tendrilHandler.update();
         box2DUpdater.update();
     }
 }
