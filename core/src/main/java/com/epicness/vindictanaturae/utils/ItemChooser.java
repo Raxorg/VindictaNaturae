@@ -14,9 +14,10 @@ public abstract class ItemChooser<T> {
     protected ArrayList<T> elements = new ArrayList<>();
     private T selected;
     protected State state;
+    public int selectedNum;
+    public float animParam;
     private float time;
     private final float SHOWTIME = 1.f; // 1 second
-    public float animParam;
 
     final public void init() {
         affine = new Affine2();
@@ -44,10 +45,12 @@ public abstract class ItemChooser<T> {
     }
 
     final private boolean processInternal() {
-        for (T element: elements) {
+        for (int i = 0; i < elements.size(); ++i) {
+            T element = elements.get(i);
             if (trySelect(element)) {
                 state = State.FADE_OUT;
                 selected = element;
+                selectedNum = i;
                 return false;
             }
         }
@@ -75,6 +78,10 @@ public abstract class ItemChooser<T> {
 
     public final T getSelected() {
         return selected;
+    }
+
+    public final int getSelectedNum() {
+        return selectedNum;
     }
 
     public abstract void draw(ShapeDrawer sd);

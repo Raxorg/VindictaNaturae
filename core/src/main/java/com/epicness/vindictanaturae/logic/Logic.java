@@ -19,42 +19,48 @@ public class Logic {
         tc = stuff.getTC();
     }
 
-    public void init() {
-        levelLoader.loadLevel(FIRST_LEVEL);
+    private void testChooser() {
         tc.init();
 
         /// TESTING!
-        Texture t = new Texture("image3.png");
         SpriteChooser.SpriteElement elem = new SpriteChooser.SpriteElement();
-        elem.region = new TextureRegion(t, 0, 0, 16, 16);
+        elem.region = new TextureRegion(SpriteChooser.textures, 0, 0, 256, 64);
         elem.posX = 300f;
         elem.posY = 100f;
-        elem.width = 32;
-        elem.height = 32;
+        elem.width = 256;
+        elem.height = 64;
 
         tc.add(elem);
 
         elem = new SpriteChooser.SpriteElement();
-        elem.region = new TextureRegion(t, 0, 48, 16, 16);
+        elem.region = new TextureRegion(SpriteChooser.textures, 0, 64, 256, 64);
         elem.posX = 300f;
         elem.posY = 200f;
-        elem.width = 32;
-        elem.height = 32;
+        elem.width = 256;
+        elem.height = 64;
 
         tc.add(elem);
 
         elem = new SpriteChooser.SpriteElement();
-        elem.region = new TextureRegion(t, 0, 80, 16, 16);
+        elem.region = new TextureRegion(SpriteChooser.textures, 0, 128, 256, 64);
         elem.posX = 300f;
         elem.posY = 300f;
-        elem.width = 32;
-        elem.height = 32;
+        elem.width = 256;
+        elem.height = 64;
 
         tc.add(elem);
     }
 
+    public void init() {
+        levelLoader.loadLevel(FIRST_LEVEL);
+        testChooser();
+
+    }
+
     public void update(float delta) {
         box2DUpdater.update();
-        tc.process(delta);
+        if (tc.process(delta)) {
+            System.out.println("Choosen " + tc.getSelectedNum());
+        }
     }
 }

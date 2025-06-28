@@ -1,6 +1,8 @@
 package com.epicness.vindictanaturae.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -19,7 +21,11 @@ public class SpriteChooser extends ItemChooser<SpriteChooser.SpriteElement> {
         public float height;
     }
 
-    Vector2 v2 = new Vector2();
+    // just for tests
+    static public Texture textures;
+    public SpriteChooser(){
+        textures = new Texture("drawing.png");
+    }
     
     @Override
     public boolean trySelect(SpriteChooser.SpriteElement element) {
@@ -40,19 +46,18 @@ public class SpriteChooser extends ItemChooser<SpriteChooser.SpriteElement> {
     public void draw(SpriteBatch batch) {
         if (state == State.FINISHED) return;
         
+        Color oldColor = batch.getColor();
+        batch.setColor(1,1,1, 1-animParam);
         for (SpriteChooser.SpriteElement element: elements) {
-            v2.set(0, 0);
             affine.idt();
-
             ///MODIFY THOSE TO CHANGE ANIMATION EFFECT!
             affine.preTranslate(-element.width/2, -element.height/2);
             affine.preScale(1-animParam*20, 1 - animParam);
             affine.preRotateRad(animParam*3);
             affine.preTranslate(element.posX+element.width/2, element.posY+element.height/2);
 
-
-            affine.applyTo(v2);
             batch.draw(element.region, element.width, element.height, affine);
         }
+        batch.setColor(oldColor);
     }
 }
